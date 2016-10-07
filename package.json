@@ -1,0 +1,15 @@
+{
+  "name": "node-app-base",
+  "version": "0.0.1",
+  "description": "Basic utilities for running node microservices",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "James Barwell <jb@jamesbarwell.co.uk>",
+  "license": "ISC",
+  "dependencies": {
+    "debug": "^2.2.0",
+    "prometheus-client-js": "^2.3.6"
+  }
+}
