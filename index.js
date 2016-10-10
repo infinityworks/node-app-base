@@ -15,11 +15,7 @@ class Metrics {
 
     constructor() {
         this.metrics = {}
-        this.client
-    }
-
-    startServer(port) {
-        this.client = new prometheus({ port: port })
+        this.client = new prometheus({ port: 9090 })
         this.client.createServer(true)
     }
 
