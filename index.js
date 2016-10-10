@@ -129,7 +129,7 @@ function makeLogger(name, sendStdErr) {
     }
 
     return function(logKey, data) {
-        if (!/^[a-zA-Z0-9.]+$/.test(logKey)) {
+        if (!/^[a-zA-Z0-9.-]+$/.test(logKey)) {
             throw new Error(
                 'Invalid log key ' + logKey
             )
