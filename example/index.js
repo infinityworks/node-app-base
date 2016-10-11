@@ -10,7 +10,5 @@ base.config.set({
     GREETING_NAME: { type: 'string', default: 'world' }
 })
 
-base.metrics.startServer(1337)
-
 const app = require('./app')
 app.start()
