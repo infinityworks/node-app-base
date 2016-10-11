@@ -5,18 +5,23 @@ Basic utilities for running node microservices
 
 See: https://github.com/infinityworksltd/docker-node-base
 
+## How to use
+
+See included example application.
+
 ## API
 
+```
+* setName
 * config
 ** set
 ** get
 * metrics
-** startServer
 ** counter
 ** gauge
 ** histogram
 * logger
-** debug
 ** info
 ** warn
 ** error
+```
