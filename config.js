@@ -17,7 +17,7 @@ function get(key) {
         return parseValue(value, type)
     }
 
-    if (configOpts[key] && configOpts[key]['default']) {
+    if (configOpts[key] && typeof configOpts[key]['default'] !== 'undefined' ) {
         return configOpts[key]['default']
     }
 
@@ -27,12 +27,17 @@ function get(key) {
 }
 
 function parseValue(value, type) {
-    if (type == 'string') {
-        return value + ''
-    } else if (type == 'int' || type == 'integer') {
-        return parseInt(value)
-    } else if (type == 'float') {
-        return parseFloat(value)
+    switch(type) {
+        case 'string':
+            return value + ''
+        case 'int':
+        case 'integer':
+            return parseInt(value)
+        case 'float':
+            return parseFloat(value)
+        case 'boolean':
+            return !!value
+        default:
+            return value
     }
-    return value
 }
