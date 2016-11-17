@@ -7,7 +7,6 @@ const Config = require('./config')
 const Metrics = require('./metrics')
 
 function setName(value) {
-    Logger.setName(value)
     Metrics.setName(value)
 }
 setName('myapp')

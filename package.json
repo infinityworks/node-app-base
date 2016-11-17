@@ -9,7 +9,6 @@
   "author": "James Barwell <jb@jamesbarwell.co.uk>",
   "license": "ISC",
   "dependencies": {
-    "debug": "^2.2.0",
     "prometheus-client-js": "^2.3.6"
   },
   "devDependencies": {

@@ -1,17 +1,11 @@
 'use strict'
 
-const debug = require('debug')
-
-let appName
-function setName(value) {
-    appName = value
-}
-
 function makeLogger(level, sendStdErr) {
-    var logger = debug('app.' + level)
-
+    const logger = {
+        log: process.stdout.write.bind(process.stdout)
+    }
     if (sendStdErr) {
-        logger.log = console.error.bind(console)
+        logger.log = process.stderr.write.bind(process.stderr)
     }
 
     return function(logKey, data) {
@@ -22,10 +16,45 @@ function makeLogger(level, sendStdErr) {
             })
         }
 
-        const logLine = '[' + appName + '] ' + logKey + ': %o'
-        logger(logLine, data || {})
+        const timestamp = getTimestamp()
+
+        let metaFields = {
+            logtime: timestamp.millisSinceEpoch,
+            time:    timestamp.humanTime,
+            level:   level,
+            event:   logKey
+        }
+
+        for (const key in data) {
+            if (!metaFields[key]) {
+                metaFields[key] = data[key]
+            }
+        }
+
+        logger.log(JSON.stringify(metaFields) + '\n')
     }
 }
+
+function getTimestamp() {
+    const date = new Date;
+    const millisSinceEpoch = Date.now()
+
+    const humanTime = [
+        date.getMonth()+1,
+        date.getDate(),
+        date.getFullYear()
+    ].join('-') + ' ' + [
+        date.getHours(),
+        date.getMinutes(),
+        date.getSeconds()
+    ].join(':');
+
+    return {
+        millisSinceEpoch: millisSinceEpoch,
+        humanTime: humanTime
+    }
+}
+
 
 let loggers = {
     error: makeLogger('error', true),
@@ -34,6 +63,5 @@ let loggers = {
 }
 
 module.exports = {
-    setName: setName,
     loggers: loggers
 }
