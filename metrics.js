@@ -26,7 +26,7 @@ function setStartTime(value) {
 
 
 let metrics = {}
-let client = new prometheus({ port: 9090 })
+let client = new prometheus({ port: 9091 })
 client.createServer(true)
 
 function counter(data) {
