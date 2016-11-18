@@ -40,9 +40,9 @@ function getTimestamp() {
     const millisSinceEpoch = Date.now()
 
     const humanTime = [
+        date.getFullYear(),
         date.getMonth()+1,
-        date.getDate(),
-        date.getFullYear()
+        date.getDate()
     ].join('-') + ' ' + [
         date.getHours(),
         date.getMinutes(),
