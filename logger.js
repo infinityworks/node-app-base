@@ -64,8 +64,8 @@ function padToTwo(number) {
 
 
 let loggers = {
-    error: makeLogger('error', true),
-    warn:  makeLogger('warn', true),
+    error: makeLogger('error'),
+    warn:  makeLogger('warn'),
     info:  makeLogger('info')
 }
 
