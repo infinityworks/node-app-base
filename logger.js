@@ -41,18 +41,25 @@ function getTimestamp() {
 
     const humanTime = [
         date.getFullYear(),
-        date.getMonth()+1,
-        date.getDate()
+        padToTwo(date.getMonth()+1),
+        padToTwo(date.getDate())
     ].join('-') + ' ' + [
-        date.getHours(),
-        date.getMinutes(),
-        date.getSeconds()
+        padToTwo(date.getHours()),
+        padToTwo(date.getMinutes()),
+        padToTwo(date.getSeconds())
     ].join(':');
 
     return {
         millisSinceEpoch: millisSinceEpoch,
         humanTime: humanTime
     }
+}
+
+function padToTwo(number) {
+    if (number <= 9) {
+        number = ("0"+number).slice(-2);
+    }
+    return number;
 }
 
 
