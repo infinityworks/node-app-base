@@ -1,6 +1,6 @@
 {
   "name": "node-app-base",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Basic utilities for running node microservices",
   "main": "index.js",
   "scripts": {
