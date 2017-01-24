@@ -42,6 +42,8 @@ function histogram(data) {
 }
 
 function upsertMetric(type, data) {
+    data.namespace = appName
+
     if (!metrics[data.name]) {
         let metric
         if (type == 'counter') {
