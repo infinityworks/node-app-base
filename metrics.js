@@ -11,7 +11,9 @@ module.exports = {
         counter: counter,
         gauge: gauge,
         histogram: histogram,
-        summary: summary
+        summary: summary,
+        linearBuckets: client.linearBuckets.bind(client),
+        exponentialBuckets: client.exponentialBuckets.bind(client)
     }
 }
 
