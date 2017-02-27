@@ -4,11 +4,9 @@ const http = require('http')
 const client = require('prom-client')
 
 let appName
-let startTime
 
 module.exports = {
     setName: setName,
-    setStartTime: setStartTime,
     metrics: {
         counter: counter,
         gauge: gauge,
@@ -29,10 +27,6 @@ http.createServer((req, res) => {
 
 function setName(value) {
     appName = value
-}
-
-function setStartTime(value) {
-    startTime = value
 }
 
 function counter(data) {

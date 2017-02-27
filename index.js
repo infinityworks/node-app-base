@@ -1,7 +1,5 @@
 'use strict'
 
-let startTime = new Date
-
 const Logger = require('./logger')
 const Config = require('./config')
 const Metrics = require('./metrics')
@@ -10,8 +8,6 @@ function setName(value) {
     Metrics.setName(value)
 }
 setName('myapp')
-
-Metrics.setStartTime(startTime)
 
 module.exports = {
     setName: setName,
