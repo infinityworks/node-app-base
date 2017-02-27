@@ -56,8 +56,15 @@ const server = http.createServer((req, res) => {
 
     base.metrics.histogram({
         name: 'response_time_milliseconds',
-        help: 'Response time distribution',
+        help: 'Response time duration distribution',
         buckets: [ 10, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000 ],
+        value: responseTime
+    })
+
+    base.metrics.summary({
+        name: 'response_time_percentile',
+        help: 'Response time percentile distribution',
+        percentiles: [ 0.01, 0.1, 0.9, 0.99 ],
         value: responseTime
     })
 });

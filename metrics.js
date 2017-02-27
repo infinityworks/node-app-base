@@ -12,7 +12,8 @@ module.exports = {
     metrics: {
         counter: counter,
         gauge: gauge,
-        histogram: histogram
+        histogram: histogram,
+        summary: summary
     }
 }
 
@@ -46,6 +47,10 @@ function histogram(data) {
     return upsertMetric('histogram', data)
 }
 
+function summary(data) {
+    return upsertMetric('summary', data)
+}
+
 function upsertMetric(type, data) {
     const name = appName + '_' + data.name
     const help = data.help
@@ -62,6 +67,10 @@ function upsertMetric(type, data) {
             metric = new client.Histogram(name, help, {
               buckets: data.buckets
             })
+        } else if (type === 'summary') {
+            metric = new client.Summary(name, help, {
+              percentiles: data.percentiles
+            })
         }
     }
 
@@ -72,6 +81,8 @@ function upsertMetric(type, data) {
     } else if (type === 'gauge' && value !== null) {
         metric.set(labels, value)
     } else if (type === 'histogram' && value !== null) {
+        metric.observe(value)
+    } else if (type === 'summary' && value !== null) {
         metric.observe(value)
     }
 }
