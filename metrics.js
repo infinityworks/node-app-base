@@ -1,7 +1,7 @@
 'use strict'
 
-const v8 = require('v8')
-const prometheus = require('prometheus-client-js')
+const http = require('http')
+const client = require('prom-client')
 
 let appName
 let startTime
@@ -16,6 +16,16 @@ module.exports = {
     }
 }
 
+http.createServer((req, res) => {
+  if (req.url !== '/metrics') {
+    res.statusCode = 404
+    res.end('404')
+    return
+  }
+
+  res.end(client.register.metrics())
+}).listen(9091)
+
 function setName(value) {
     appName = value
 }
@@ -23,11 +33,6 @@ function setName(value) {
 function setStartTime(value) {
     startTime = value
 }
-
-
-let metrics = {}
-let client = new prometheus({ port: 9091 })
-client.createServer(true)
 
 function counter(data) {
     return upsertMetric('counter', data)
@@ -42,82 +47,31 @@ function histogram(data) {
 }
 
 function upsertMetric(type, data) {
-    data.namespace = appName
+    const name = appName + '_' + data.name
+    const help = data.help
+    const labels = data.labels || {}
+    const labelKeys = Object.keys(labels)
 
-    if (!metrics[data.name]) {
-        let metric
+    let metric = client.register.getSingleMetric(name)
+    if (!metric) {
         if (type == 'counter') {
-            metric = client.createCounter(data)
+            metric = new client.Counter(name, help, labelKeys)
         } else if (type === 'gauge') {
-            metric = client.createGauge(data)
+            metric = new client.Gauge(name, help, labelKeys)
         } else if (type === 'histogram') {
-            metric = client.createHistogram(data)
+            metric = new client.Histogram(name, help, {
+              buckets: data.buckets
+            })
         }
-        metrics[data.name] = metric
     }
 
-    let labels = data.labels || {}
-    let value = data.value || null
+    const value = Number.isInteger(data.value) ? data.value : null
 
     if (type == 'counter') {
-        metrics[data.name].increment(labels)
-    } else if (type === 'gauge') {
-        metrics[data.name].set(labels, value)
-    } else if (type === 'histogram') {
-        metrics[data.name].observe(value)
+        metric.inc(labels)
+    } else if (type === 'gauge' && value !== null) {
+        metric.set(labels, value)
+    } else if (type === 'histogram' && value !== null) {
+        metric.observe(value)
     }
 }
-
-function updateMetrics() {
-    const value = Math.floor((new Date - startTime) / 1000)
-
-    gauge({
-        name: 'uptime_seconds',
-        namespace: appName,
-        help: 'Lifetime of application in seconds',
-        value: value
-    })
-
-    gauge({
-        name: 'memory_usage_bytes',
-        namespace: appName,
-        help: 'Heap memory usage of node application in bytes',
-        value: process.memoryUsage().heapUsed
-    })
-
-    if (process.cpuUsage) {
-        let cpuUsage = process.cpuUsage()
-
-        gauge({
-            name: 'cpu_usage',
-            namespace: appName,
-            help: 'CPU usage of node application',
-            labels: { type: 'user' },
-            value: cpuUsage.user
-        })
-
-        gauge({
-            name: 'cpu_usage',
-            namespace: appName,
-            help: 'CPU usage of node application',
-            labels: { type: 'system' },
-            value: cpuUsage.system
-        })
-    }
-
-    let v8HeapStats = v8.getHeapStatistics()
-    Object.keys(v8HeapStats).forEach(function(key) {
-        let name = key
-        if (name.substring(name.length - 4) == 'size') {
-            name += '_bytes'
-        }
-
-        gauge({
-            name: name,
-            namespace: appName,
-            help: 'V8 heap stats',
-            value: v8HeapStats[key]
-        })
-    })
-}
-setInterval(updateMetrics, 1000)

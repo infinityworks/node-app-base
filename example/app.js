@@ -42,7 +42,6 @@ const server = http.createServer((req, res) => {
 
     base.metrics.counter({
         name: 'request_count',
-        namespace: 'example',
         help: 'Total incoming HTTP requests',
         labels: {
             statusCode: statusCode
@@ -51,14 +50,12 @@ const server = http.createServer((req, res) => {
 
     base.metrics.gauge({
         name: 'random_value',
-        namespace: 'example',
         help: 'Some random value set on each request',
         value: Math.floor(Math.random() * 1000)
     })
 
     base.metrics.histogram({
         name: 'response_time_milliseconds',
-        namespace: 'example',
         help: 'Response time distribution',
         buckets: [ 10, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000 ],
         value: responseTime
