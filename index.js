@@ -14,9 +14,9 @@ module.exports = (appName) => {
 }
 
 function getInstance(appName) {
-  const logger = Logger()
-  const config = Config()
   const metrics = Metrics(appName)
+  const logger = Logger(metrics)
+  const config = Config()
 
   return {
     logger: logger,

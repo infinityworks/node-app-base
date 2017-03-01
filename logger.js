@@ -1,6 +1,6 @@
 'use strict'
 
-module.exports = () => {
+module.exports = (metrics) => {
 
   function makeLogger(level, sendStdErr) {
     const logger = {
@@ -32,6 +32,14 @@ module.exports = () => {
           metaFields[key] = data[key]
         }
       }
+
+      metrics.counter({
+        name: 'log_line',
+        help: 'Count of application log lines by level',
+        labels: {
+          level: level
+        }
+      })
 
       logger.log(JSON.stringify(metaFields) + '\n')
     }
