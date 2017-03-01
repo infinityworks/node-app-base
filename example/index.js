@@ -1,7 +1,5 @@
 'use strict'
-const base = require('../index')
-
-base.setName('example')
+const base = require('../index')('example')
 
 base.config.set({
     // Port to listen on

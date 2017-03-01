@@ -3,13 +3,7 @@
 const http = require('http')
 const client = require('prom-client')
 
-module.exports = () => {
-
-  let appName
-
-  function setName(value) {
-    appName = value
-  }
+module.exports = (appName) => {
 
   function counter(data) {
     return upsertMetric('counter', data)
@@ -77,19 +71,13 @@ module.exports = () => {
 
   createHttpServer()
 
-  const metrics = {
+  return {
     counter: counter,
     gauge: gauge,
     histogram: histogram,
     summary: summary,
     linearBuckets: client.linearBuckets.bind(client),
     exponentialBuckets: client.exponentialBuckets.bind(client)
-  }
-
-
-  return {
-    setName: setName,
-    metrics: metrics
   }
 }
 

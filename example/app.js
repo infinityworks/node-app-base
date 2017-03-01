@@ -1,5 +1,5 @@
 'use strict'
-const base = require('../index')
+const base = require('../index')('example')
 
 const http = require('http');
 const crypto = require('crypto')

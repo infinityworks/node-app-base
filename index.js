@@ -4,19 +4,23 @@ const Logger = require('./logger')
 const Config = require('./config')
 const Metrics = require('./metrics')
 
-const logger = Logger()
-const config = Config()
-const metrics = Metrics()
+const instances = {}
 
-function setName(value) {
-    metrics.setName(value)
+module.exports = (appName) => {
+  if (!instances[appName]) {
+    instances[appName] = getInstance(appName)
+  }
+  return instances[appName]
 }
-setName('myapp')
 
-module.exports = {
-    setName: setName,
+function getInstance(appName) {
+  const logger = Logger()
+  const config = Config()
+  const metrics = Metrics(appName)
+
+  return {
     logger: logger,
     config: config,
-    metrics: metrics.metrics
+    metrics: metrics
+  }
 }
-
