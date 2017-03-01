@@ -1,74 +1,74 @@
 'use strict'
 
-function makeLogger(level, sendStdErr) {
+module.exports = () => {
+
+  function makeLogger(level, sendStdErr) {
     const logger = {
-        log: process.stdout.write.bind(process.stdout)
+      log: process.stdout.write.bind(process.stdout)
     }
     if (sendStdErr) {
-        logger.log = process.stderr.write.bind(process.stderr)
+      logger.log = process.stderr.write.bind(process.stderr)
     }
 
     return function(logKey, data) {
-        if (!/^[a-zA-Z0-9.-]+$/.test(logKey)) {
-            loggers.warn('logger.invalid.key', {
-                key: logKey,
-                message: 'Log key must be alphanumeric plus dots and dashes, else log forwarding will fail'
-            })
+      if (!/^[a-zA-Z0-9.-]+$/.test(logKey)) {
+        loggers.warn('logger.invalid.key', {
+          key: logKey,
+          message: 'Log key must be alphanumeric plus dots and dashes, else log forwarding will fail'
+        })
+      }
+
+      const timestamp = getTimestamp()
+
+      let metaFields = {
+        logtime: timestamp.millisSinceEpoch,
+        time:    timestamp.humanTime,
+        level:   level,
+        event:   logKey
+      }
+
+      for (const key in data) {
+        if (!metaFields[key]) {
+          metaFields[key] = data[key]
         }
+      }
 
-        const timestamp = getTimestamp()
-
-        let metaFields = {
-            logtime: timestamp.millisSinceEpoch,
-            time:    timestamp.humanTime,
-            level:   level,
-            event:   logKey
-        }
-
-        for (const key in data) {
-            if (!metaFields[key]) {
-                metaFields[key] = data[key]
-            }
-        }
-
-        logger.log(JSON.stringify(metaFields) + '\n')
+      logger.log(JSON.stringify(metaFields) + '\n')
     }
-}
+  }
 
-function getTimestamp() {
+  function getTimestamp() {
     const date = new Date;
     const millisSinceEpoch = Date.now()
 
     const humanTime = [
-        date.getFullYear(),
-        padToTwo(date.getMonth()+1),
-        padToTwo(date.getDate())
+      date.getFullYear(),
+      padToTwo(date.getMonth()+1),
+      padToTwo(date.getDate())
     ].join('-') + ' ' + [
-        padToTwo(date.getHours()),
-        padToTwo(date.getMinutes()),
-        padToTwo(date.getSeconds())
+      padToTwo(date.getHours()),
+      padToTwo(date.getMinutes()),
+      padToTwo(date.getSeconds())
     ].join(':');
 
     return {
-        millisSinceEpoch: millisSinceEpoch,
-        humanTime: humanTime
+      millisSinceEpoch: millisSinceEpoch,
+      humanTime: humanTime
     }
-}
+  }
 
-function padToTwo(number) {
+  function padToTwo(number) {
     if (number <= 9) {
-        number = ("0"+number).slice(-2);
+      number = ("0"+number).slice(-2);
     }
     return number;
-}
+  }
 
-
-let loggers = {
+  return {
     error: makeLogger('error'),
     warn:  makeLogger('warn'),
     info:  makeLogger('info')
+  }
 }
 
-module.exports = {
-    loggers: loggers
-}
+

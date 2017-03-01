@@ -4,15 +4,19 @@ const Logger = require('./logger')
 const Config = require('./config')
 const Metrics = require('./metrics')
 
+const logger = Logger()
+const config = Config()
+const metrics = Metrics()
+
 function setName(value) {
-    Metrics.setName(value)
+    metrics.setName(value)
 }
 setName('myapp')
 
 module.exports = {
     setName: setName,
-    logger: Logger.loggers,
-    config: Config,
-    metrics: Metrics.metrics
+    logger: logger,
+    config: config,
+    metrics: metrics.metrics
 }
 
