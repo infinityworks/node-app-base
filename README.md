@@ -9,12 +9,23 @@ See: https://github.com/infinityworksltd/docker-node-base
 
 ## How to use
 
-See included example application.
+Require the library and call it as a function, passing in your application name. This returns an object with three components: `config`, `logger` and `metrics`.
+
+```js
+const base = require('node-app-base')('example')
+
+const config = base.config
+const logger = base.logger
+const metrics = base.metrics
+```
+
+The library is a singleton, so you can either pass it around through your application or simply call it again passing in the same application name.
+
+See included example application for further details.
 
 ## API
 
 ```
-* setName
 * config
 ** set
 ** get
