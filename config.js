@@ -36,7 +36,7 @@ function parseValue(value, type) {
         case 'float':
             return parseFloat(value)
         case 'boolean':
-            return !!value
+            return (value === 'true' || parseInt(value) === 1)
         default:
             return value
     }
