@@ -17,6 +17,7 @@ const base = require('node-app-base')('example')
 const config = base.config
 const logger = base.logger
 const metrics = base.metrics
+const timers = base.timers
 ```
 
 The library is a singleton, so you can either pass it around through your application or simply call it again passing in the same application name.
@@ -37,4 +38,7 @@ See included example application for further details.
 ** info
 ** warn
 ** error
+* timers
+** start
+** stop
 ```
