@@ -7,7 +7,7 @@ const hostname = '127.0.0.1';
 const port = base.config.get('HTTP_PORT');
 
 const server = http.createServer((req, res) => {
-    let startTime = new Date
+    base.timers.start('app')
 
     base.logger.info('request.start', { path: req.url })
 
@@ -36,9 +36,9 @@ const server = http.createServer((req, res) => {
     res.setHeader('Content-Type', 'text/plain');
     res.end(message);
 
-    let responseTime = new Date - startTime
+    let responseTimeMs = base.timers.stop('app')
 
-    base.logger.info('request.end', { path: req.url, time: responseTime })
+    base.logger.info('request.end', { path: req.url, time: responseTimeMs })
 
     base.metrics.counter({
         name: 'request_count',
@@ -58,14 +58,14 @@ const server = http.createServer((req, res) => {
         name: 'response_time_milliseconds',
         help: 'Response time duration distribution',
         buckets: [ 10, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000 ],
-        value: responseTime
+        value: responseTimeMs
     })
 
     base.metrics.summary({
         name: 'response_time_percentile',
         help: 'Response time percentile distribution',
         percentiles: [ 0.01, 0.1, 0.9, 0.99 ],
-        value: responseTime
+        value: responseTimeMs
     })
 });
 
