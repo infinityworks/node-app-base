@@ -3,6 +3,7 @@
 const Logger = require('./logger')
 const Config = require('./config')
 const Metrics = require('./metrics')
+const Timers = require('./timers')
 
 const instances = {}
 
@@ -17,10 +18,12 @@ function getInstance(appName) {
   const metrics = Metrics(appName)
   const logger = Logger(metrics)
   const config = Config()
+  const timers = Timers()
 
   return {
     logger: logger,
     config: config,
-    metrics: metrics
+    metrics: metrics,
+    timers: timers
   }
 }
