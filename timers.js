@@ -9,8 +9,8 @@ module.exports = () => {
     let startHrTimes = {}
 
     return {
-        timeStart: timeStart,
-        timeEnd: timeEnd
+        timeStart: start,
+        timeEnd: stop
     }
 
     /*

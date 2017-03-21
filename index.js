@@ -4,6 +4,7 @@ const Logger = require('./logger')
 const Config = require('./config')
 const Metrics = require('./metrics')
 const Timers = require('./timers')
+const Slack = require('slack')
 
 const instances = {}
 
@@ -24,6 +25,7 @@ function getInstance(appName) {
     logger: logger,
     config: config,
     metrics: metrics,
-    timers: timers
+    timers: timers,
+    slack: Slack
   }
 }
