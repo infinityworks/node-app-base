@@ -8,6 +8,12 @@ module.exports = (appName, config) => {
   }
 
   function postMessage(text, callback) {
+    const enabled = config.get('SLACK_ENABLED')
+
+    if (!enabled) {
+      return callback()
+    }
+
     const url = config.get('SLACK_URL')
     const channel = config.get('SLACK_CHANNEL')
 
@@ -17,11 +23,15 @@ module.exports = (appName, config) => {
     }
 
     const slack = new Slack(url)
-    return slack.send({
-      username: appName,
-      channel: channel,
-      text: text
-    })
+
+    return slack.send(
+      {
+        username: appName,
+        channel: channel,
+        text: text
+      },
+      callback
+    )
   }
 
   function noConfigCheck(url, channel) {
