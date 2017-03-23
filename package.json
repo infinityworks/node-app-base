@@ -9,8 +9,8 @@
   "author": "James Barwell <jb@jamesbarwell.co.uk>",
   "license": "ISC",
   "dependencies": {
-    "prom-client": "^7.1.0",
-    "slack": "^8.2.6"
+    "node-slack": "0.0.7",
+    "prom-client": "^7.1.0"
   },
   "devDependencies": {
     "mocha": "^3.1.2"
