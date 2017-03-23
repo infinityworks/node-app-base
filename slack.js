@@ -3,39 +3,34 @@
 const Slack = require('node-slack')
 
 module.exports = (appName, config) => {
-  const url = config.get('SLACK_URL')
-  const channel = config.get('SLACK_CHANNEL')
-
   return {
       postMessage: postMessage
   }
 
   function postMessage(text, callback) {
-    if (noConfigCheck(callback)) {
-      return
+    const url = config.get('SLACK_URL')
+    const channel = config.get('SLACK_CHANNEL')
+
+    const configErr = noConfigCheck(url, channel)
+    if (configErr) {
+      return callback(configErr)
     }
 
     const slack = new Slack(url)
     return slack.send({
-      text: text,
+      username: appName,
       channel: channel,
-      username: appName
+      text: text
     })
   }
 
-  function noConfigCheck(callback) {
+  function noConfigCheck(url, channel) {
     if (!url) {
-      callback(
-        new Error('No url specified, please set SLACK_TOKEN environment variable')
-      )
-      return true
+      return new Error('No url specified, please set SLACK_TOKEN environment variable')
     }
 
     if (!channel) {
-      callback(
-        new Error('No channel specified, please set SLACK_CHANNEL environment variable')
-      )
-      return true
+      return new Error('No channel specified, please set SLACK_CHANNEL environment variable')
     }
 
     return false
