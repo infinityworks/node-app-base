@@ -18,6 +18,7 @@ const config = base.config
 const logger = base.logger
 const metrics = base.metrics
 const timers = base.timers
+const slack = base.slack
 ```
 
 The library is a singleton, so you can either pass it around through your application or simply call it again passing in the same application name.
@@ -41,4 +42,6 @@ See included example application for further details.
 * timers
 ** start
 ** stop
+* slack
+** postMessage
 ```
