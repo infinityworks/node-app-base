@@ -8,6 +8,8 @@ module.exports = (appName, config) => {
   }
 
   function postMessage(text, callback) {
+    callback = callback || function() {}
+
     const enabled = config.get('SLACK_ENABLED')
 
     if (!enabled) {
