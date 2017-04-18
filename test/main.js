@@ -6,11 +6,31 @@ const Base = require('../index')
 describe('node-base-app', () => {
 
   let base
+  let metrics
+  let logger
   let config
+  let timers
+  let slack
 
   beforeEach(() => {
     base = Base('test')
+    metrics = base.metrics
+    logger = base.logger
     config = base.config
+    timers = base.timers
+    slack = base.slack
+  })
+
+  describe('metrics', () => {
+    it('presents a metrics interface', () => {
+      assert.ok(metrics)
+    })
+  })
+
+  describe('logger', () => {
+    it('presents a logger interface', () => {
+      assert.ok(logger)
+    })
   })
 
   describe('config', () => {
@@ -36,6 +56,10 @@ describe('node-base-app', () => {
       process.env.STRING_DEFAULTED_OVERRIDDEN = 'foo'
       process.env.STRING_OVERRIDDEN = 'bar'
       process.env.BOOLEAN_OVERRIDDEN = true
+    })
+
+    it('presents a config interface', () => {
+      assert.ok(config)
     })
 
     it('can define default config for number type', () => {
@@ -67,6 +91,18 @@ describe('node-base-app', () => {
     it('can define a falsy boolean as a default', () => {
       assert.equal(config.get('NEGATIVE_BOOLEAN'), false)
     });
+  })
+
+  describe('timers', () => {
+    it('presents a timers interface', () => {
+      assert.ok(timers)
+    })
+  })
+
+  describe('slack', () => {
+    it('presents a slack interface', () => {
+      assert.ok(slack)
+    })
   })
 
 })

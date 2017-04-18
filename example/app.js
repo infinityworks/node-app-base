@@ -72,6 +72,7 @@ const server = http.createServer((req, res) => {
 exports.start = function() {
     server.listen(port, hostname, () => {
           base.logger.info('server.startup', { hostname: hostname, port: port});
+          base.slack.chat.postMessage({ 'mytoken', '#foo', 'Server started'}, (err, data) => { })
     });
 }
 
