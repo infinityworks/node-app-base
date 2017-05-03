@@ -12,7 +12,7 @@ module.exports = (metrics) => {
 
     return function(logKey, data) {
       if (!/^[a-zA-Z0-9.-]+$/.test(logKey)) {
-        loggers.warn('logger.invalid.key', {
+        logger.warn('logger.invalid.key', {
           key: logKey,
           message: 'Log key must be alphanumeric plus dots and dashes, else log forwarding will fail'
         })
