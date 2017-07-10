@@ -5,7 +5,7 @@ node-app-base
 
 Basic utilities for running node microservices
 
-See: https://github.com/infinityworksltd/docker-node-base
+See: https://github.com/infinityworks/docker-node-base
 
 ## How to use
 
