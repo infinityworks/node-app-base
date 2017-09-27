@@ -16,6 +16,13 @@ module.exports = (appName, config) => {
       return callback()
     }
 
+    let username = appName;
+    try {
+      username = config.get('SLACK_USERNAME')
+    } catch (e) {
+      // Slack username is optional, and defaults to the appName
+    }
+
     const url = config.get('SLACK_URL')
     const channel = config.get('SLACK_CHANNEL')
 
@@ -28,7 +35,7 @@ module.exports = (appName, config) => {
 
     return slack.send(
       {
-        username: appName,
+        username: username,
         channel: channel,
         text: text
       },
