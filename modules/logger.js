@@ -21,7 +21,6 @@ module.exports = (metrics) => {
       const timestamp = getTimestamp()
 
       let metaFields = {
-        logtime: timestamp.millisSinceEpoch,
         time:    timestamp.humanTime,
         level:   level,
         event:   logKey
@@ -50,14 +49,16 @@ module.exports = (metrics) => {
     const millisSinceEpoch = Date.now()
 
     const humanTime = [
-      date.getFullYear(),
-      padToTwo(date.getMonth()+1),
-      padToTwo(date.getDate())
+      date.getUTCFullYear(),
+      padStart(date.getUTCMonth()+1, 2, '0'),
+      padStart(date.getUTCDate(), 2, '0')
     ].join('-') + ' ' + [
-      padToTwo(date.getHours()),
-      padToTwo(date.getMinutes()),
-      padToTwo(date.getSeconds())
-    ].join(':');
+      padStart(date.getUTCHours(), 2, '0'),
+      padStart(date.getUTCMinutes(), 2, '0'),
+      padStart(date.getUTCSeconds(), 2, '0')
+    ].join(':') + '.' +
+      padStart(date.getUTCMilliseconds(), 3, '0')
+
 
     return {
       millisSinceEpoch: millisSinceEpoch,
@@ -70,6 +71,21 @@ module.exports = (metrics) => {
       number = ("0"+number).slice(-2);
     }
     return number;
+  }
+
+  function padStart(value, targetLength, padString) {
+      value = value + ''
+      targetLength = targetLength>>0; //floor if number or convert non-number to 0;
+      padString = String(padString || ' ');
+      if (value.length > targetLength) {
+          return String(value);
+      }
+
+      targetLength = targetLength-value.length;
+      if (targetLength > padString.length) {
+          padString += padString.repeat(targetLength/padString.length); //append to original to ensure we are longer than needed
+      }
+      return padString.slice(0,targetLength) + String(value);
   }
 
   return {

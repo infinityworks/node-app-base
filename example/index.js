@@ -13,3 +13,7 @@ base.config.set({
 
 const app = require('./app')
 app.start()
+
+setInterval(() => {
+  base.logger.info('heartbeat')
+}, 1032)
