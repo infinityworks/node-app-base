@@ -9,6 +9,8 @@ const Slack = require('./modules/slack')
 const instances = {}
 
 module.exports = (appName) => {
+  appName = getSafeAppName(appName)
+
   if (!instances[appName]) {
     instances[appName] = getInstance(appName)
   }
@@ -29,4 +31,10 @@ function getInstance(appName) {
     timers,
     slack
   }
+}
+
+function getSafeAppName(appName) {
+  return appName
+    .replace('-','_')
+    .replace(/[^a-z0-9_]/gi, '')
 }
