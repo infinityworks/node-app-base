@@ -28,6 +28,10 @@ module.exports = () => {
      * @returns {Integer} Elapsed time in milliseconds
      */
     function stop(label) {
+        if (!startHrTimes[label]) {
+          return null
+        }
+
         const time = process.hrtime(startHrTimes[label])
         const elapsed = (time[0] * 1e9 + time[1]) / 1000000 // add tuple seconds component to nanosecond component and divide by a million to get nano to milli
         startHrTimes[label] = process.hrtime() // Reset the timer
