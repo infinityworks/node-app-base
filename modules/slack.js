@@ -32,7 +32,7 @@ module.exports = (appName, config) => {
 
   function noConfigCheck(url, channel) {
     if (!url) {
-      return new Error('No url specified, please set SLACK_TOKEN environment variable')
+      return new Error('No url specified, please set SLACK_URL environment variable')
     }
 
     if (!channel) {

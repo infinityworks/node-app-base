@@ -106,11 +106,30 @@ describe('node-base-app', () => {
     it('presents a timers interface', () => {
       assert.ok(timers)
     })
+
+    it('returns an integer when stopping a started timer', () => {
+      timers.start('foo')
+      const actual = timers.stop('foo')
+      assert.equal(actual, parseInt(actual, 10))
+    })
+
+    it('returns null when stopping an un-started timer', () => {
+      assert.equal(timers.stop('bar'), null)
+    })
   })
 
   describe('slack', () => {
     it('presents a slack interface', () => {
       assert.ok(slack)
+    })
+
+    context('when config is missing', () => {
+      it('provides an error when postMessage is called', (done) => {
+        slack.postMessage('foo', (err) => {
+          assert.ok(err)
+          done()
+        })
+      })
     })
   })
 
