@@ -40,6 +40,7 @@ describe('node-base-app', () => {
         NUMBER: { type: 'integer' },
         NUMBER_DEFAULTED_OVERRIDDEN: { type: 'integer', default: 6 },
         NUMBER_OVERRIDDEN : { type: 'integer' },
+        NUMBER_REQUIRED: { type: 'integer', required: true },
         STRING_DEFAULT: { type: 'string', default: 'hello' },
         STRING: { type: 'string' },
         STRING_DEFAULT_OVERRIDDEN: { type: 'string', default: 'hello' },
@@ -74,9 +75,17 @@ describe('node-base-app', () => {
       assert.equal(config.get('ZERO_NUMBER'), 0)
     });
 
-    it('throws an error when attempting to access a variable with no defined value', () => {
+    it('returns null when accessing a non-given value', () => {
+      assert.equal(config.get('NUMBER'), null);
+    });
+
+    it('returns null when accessing a non-defined value', () => {
+      assert.equal(config.get('FOO'), null);
+    });
+
+    it('throws an error when accessing a required variable with no value', () => {
       assert.throws(() => {
-        config.get('NUMBER')
+        config.get('NUMBER_REQUIRED')
       }, Error);
     });
 

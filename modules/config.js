@@ -18,9 +18,13 @@ module.exports = () => {
       return configOpts[key]['default']
     }
 
-    throw new Error(
-      'Invalid config value requested: ' + key
-    )
+    if (configOpts[key] && configOpts[key]['required'] === true) {
+      throw new Error(
+        'Required config value not set: ' + key
+      )
+    }
+
+    return null;
   }
 
   function parseValue(value, type) {
@@ -29,9 +33,11 @@ module.exports = () => {
         return value + ''
       case 'int':
       case 'integer':
+      case 'number':
         return parseInt(value)
       case 'float':
         return parseFloat(value)
+      case 'bool':
       case 'boolean':
         return (value === 'true' || parseInt(value) === 1)
       default:
