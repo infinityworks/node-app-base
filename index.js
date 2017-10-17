@@ -1,10 +1,10 @@
 'use strict'
 
-const Logger = require('./logger')
-const Config = require('./config')
-const Metrics = require('./metrics')
-const Timers = require('./timers')
-const Slack = require('./slack')
+const Logger = require('./modules/logger')
+const Config = require('./modules/config')
+const Metrics = require('./modules/metrics')
+const Timers = require('./modules/timers')
+const Slack = require('./modules/slack')
 
 const instances = {}
 
@@ -23,10 +23,10 @@ function getInstance(appName) {
   const slack = Slack(appName, config)
 
   return {
-    logger: logger,
-    config: config,
-    metrics: metrics,
-    timers: timers,
-    slack: slack
+    logger,
+    config,
+    metrics,
+    timers,
+    slack
   }
 }
