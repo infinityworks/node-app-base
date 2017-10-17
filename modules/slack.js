@@ -10,19 +10,7 @@ module.exports = (appName, config) => {
   function postMessage(text, callback) {
     callback = callback || function() {}
 
-    const enabled = config.get('SLACK_ENABLED')
-
-    if (!enabled) {
-      return callback()
-    }
-
-    let username = appName;
-    try {
-      username = config.get('SLACK_USERNAME')
-    } catch (e) {
-      // Slack username is optional, and defaults to the appName
-    }
-
+    const username = config.get('SLACK_USERNAME') || appName
     const url = config.get('SLACK_URL')
     const channel = config.get('SLACK_CHANNEL')
 
@@ -32,7 +20,6 @@ module.exports = (appName, config) => {
     }
 
     const slack = new Slack(url)
-
     return slack.send(
       {
         username: username,
