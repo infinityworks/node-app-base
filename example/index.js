@@ -8,7 +8,8 @@ base.config.set({
     GREETING_NAME: { type: 'string', default: 'world' },
     SLACK_ENABLED: { type: 'bool', default: false },
     SLACK_URL: { type: 'string', default: 'insert_slack_webhook_here' },
-    SLACK_CHANNEL: { type: 'string', default: '#testchannel' }
+    SLACK_CHANNEL: { type: 'string', default: '#testchannel' },
+    SLACK_EMOJI: { type: 'string', default: ':cat:' }
 })
 
 const app = require('./app')

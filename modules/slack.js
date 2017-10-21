@@ -4,7 +4,7 @@ const Slack = require('node-slack')
 
 module.exports = (appName, config) => {
   return {
-      postMessage: postMessage
+    postMessage: postMessage
   }
 
   function postMessage(text, callback) {
@@ -13,21 +13,25 @@ module.exports = (appName, config) => {
     const username = config.get('SLACK_USERNAME') || appName
     const url = config.get('SLACK_URL')
     const channel = config.get('SLACK_CHANNEL')
+    const emoji = config.get('SLACK_EMOJI')
 
     const configErr = noConfigCheck(url, channel)
     if (configErr) {
       return callback(configErr)
     }
 
+    const config = {
+      username: username,
+      channel: channel,
+      text: text
+    }
+
+    if (emoji) {
+      config.emoji = emoji
+    }
+
     const slack = new Slack(url)
-    return slack.send(
-      {
-        username: username,
-        channel: channel,
-        text: text
-      },
-      callback
-    )
+    return slack.send(config, callback)
   }
 
   function noConfigCheck(url, channel) {
