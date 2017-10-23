@@ -20,18 +20,18 @@ module.exports = (appName, config) => {
       return callback(configErr)
     }
 
-    const config = {
+    const slackConfig = {
       username: username,
       channel: channel,
       text: text
     }
 
     if (emoji) {
-      config.emoji = emoji
+      slackConfig.emoji = emoji
     }
 
     const slack = new Slack(url)
-    return slack.send(config, callback)
+    return slack.send(slackConfig, callback)
   }
 
   function noConfigCheck(url, channel) {
