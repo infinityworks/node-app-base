@@ -3,6 +3,11 @@
 /*
  * timers.js
  * Collection of functions to accurately measure the speed of your application.
+ *
+ * Usage:
+ *   const token = start()
+ *   // do work
+ *   const ms_since_start = stop(token)
  */
 
 module.exports = () => {
@@ -15,10 +20,13 @@ module.exports = () => {
 
     /*
      * Starts the timer for the code section identified by `label`
-     * @param {String} label Identifier for the code section
+     * @param {String} label Identifier for the code section, auto-generated if not provided
+     * @return {String} Identifier token for the code section
      */
     function start(label) {
+        label = label || getRandomString()
         startHrTimes[label] = process.hrtime()
+        return label
     }
 
     /*
@@ -39,5 +47,9 @@ module.exports = () => {
         // TODO -- Right now node-app-base doesn't support floating point values for metrics so we must convert them to integers.
         // We should fix that though.
         return parseInt(elapsed)
+    }
+
+    function getRandomString() {
+      return Math.floor(Math.random() * 1000000000) + ''
     }
 }
