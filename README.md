@@ -54,13 +54,15 @@ config.get('bar') // throws error
 
 Available values for the `type` parameter:
 - `string`
-- `int`, `integer`, `number
+- `int`, `integer`, `number`
 - `float`
 - `bool`, `boolean`
 
 ### logger
 
 Provides basic logging functions. The first argument should always be an alphanumeric key (dots and dashes are also allowed), and the optional second argument is a JSON object that is intended to provide context to the log line.
+
+Note that there is intentionally no debug function, as we do not want to encourage divergence between the development and production environment.
 
 ```js
 logger.info('request.start', { path: url })
