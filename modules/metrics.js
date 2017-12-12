@@ -34,7 +34,7 @@ module.exports = (appName) => {
       } else if (type === 'gauge') {
         metric = new client.Gauge(name, help, labelKeys)
       } else if (type === 'histogram') {
-        metric = new client.Histogram(name, help, {
+        metric = new client.Histogram(name, help, labelKeys, {
           buckets: data.buckets
         })
       } else if (type === 'summary') {
@@ -51,7 +51,7 @@ module.exports = (appName) => {
     } else if (type === 'gauge' && value !== null) {
       metric.set(labels, value)
     } else if (type === 'histogram' && value !== null) {
-      metric.observe(value)
+      metric.observe(labels, value)
     } else if (type === 'summary' && value !== null) {
       metric.observe(value)
     }

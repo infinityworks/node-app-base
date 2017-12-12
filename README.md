@@ -99,7 +99,10 @@ metrics.histogram({
     name: 'response_time_milliseconds',
     help: 'Response time duration distribution',
     buckets: [ 10, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000 ],
-    value: responseTimeMs
+    value: responseTimeMs,
+    labels: {
+        uri: uri
+    }
 })
 
 metrics.summary({
