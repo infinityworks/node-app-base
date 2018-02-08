@@ -2,15 +2,16 @@
 
 module.exports = () => {
   let configOpts = {}
+  let backend = process.env
 
   function set(data) {
     configOpts = data;
   }
 
   function get(key) {
-    if (process.env[key]) {
+    if (backend[key]) {
       const type = configOpts[key] && configOpts[key]['type']
-      const value = process.env[key]
+      const value = backend[key]
       return parseValue(value, type)
     }
 
@@ -45,8 +46,13 @@ module.exports = () => {
     }
   }
 
+  function setBackend(value) {
+    backend = value
+  }
+
   return {
     set: set,
-    get: get
+    get: get,
+    setBackend: setBackend
   }
 }
