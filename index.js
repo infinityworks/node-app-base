@@ -5,6 +5,7 @@ const Config = require('./modules/config')
 const Metrics = require('./modules/metrics')
 const Timers = require('./modules/timers')
 const Slack = require('./modules/slack')
+const HealthCheck = require('./modules/healthCheck')
 
 const instances = {}
 
@@ -23,13 +24,15 @@ function getInstance(appName) {
   const config = Config()
   const timers = Timers()
   const slack = Slack(appName, config)
+  const healthCheck = HealthCheck(logger, config)
 
   return {
     logger,
     config,
     metrics,
     timers,
-    slack
+    slack,
+    healthCheck
   }
 }
 
