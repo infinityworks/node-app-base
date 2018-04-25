@@ -16,7 +16,7 @@ When instantiated, the base returns an object holding its modules, and it is rec
 
 ```js
 const base = require('node-app-base')('example')
-const { config, logger, metrics, timers, slack } = base
+const { config, logger, metrics, timers, slack, healthCheck } = base
 ```
 
 The base library is a singleton, so you can either pass it around through your application or simply call it again passing in the same application name.
@@ -151,4 +151,37 @@ slack.postMessage('hello slack', (err) => {
     console.log(err.toString())
     // err is an Error object containing a message as to what was not defined.
 })
+```
+
+### Health Check
+
+Set up an HTTP endpoint to monitor application health. Returns 200 if health and 500 if not healthy.
+
+The module can be configured as follows:
+
+```
+HEALTHCHECK_HTTP_LISTEN_PORT: optional, the listen port for the endpoint. Defaults to 8999
+
+```
+
+```js
+// Basic listener
+healthCheck.initListener();
+```
+
+```js
+// Advanced listener using promise
+function isAppHealthy() {
+    return new Promise((resolve, reject) => {
+        const isDatabaseOk = checkDatabaseConnectivityOk();
+        const isCacheOk = checkCacheConnectivityOk();
+
+        if (isDatabaseOk && isCacheOk) {
+            return resolve();
+        }
+        return reject();
+    });
+}
+
+healthCheck.initListener(isAppHealthy);
 ```
