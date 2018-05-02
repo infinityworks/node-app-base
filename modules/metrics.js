@@ -47,7 +47,7 @@ module.exports = (appName) => {
     const value = Number.isInteger(data.value) ? data.value : null
 
     if (type == 'counter') {
-      metric.inc(labels)
+      metric.inc(labels, value)
     } else if (type === 'gauge' && value !== null) {
       metric.set(labels, value)
     } else if (type === 'histogram' && value !== null) {
