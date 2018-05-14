@@ -6,8 +6,6 @@ node-app-base
 
 Basic utilities for running node microservices
 
-See: https://github.com/infinityworks/docker-node-base
-
 ## How to use
 
 Require the base library and call it as a function, passing in your application name. The application name will be used to configure the various internal modules of the base, and must be alphanumeric with underscores only.

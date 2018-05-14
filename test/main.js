@@ -1,5 +1,6 @@
 'use strict'
 
+const { iterate } = require('leakage')
 const assert = require('assert')
 const Base = require('../index')
 
@@ -116,6 +117,14 @@ describe('node-base-app', () => {
     it('returns null when stopping an un-started timer', () => {
       assert.equal(timers.stop('bar'), null)
     })
+
+    // This test will take a few seconds to run.
+    it('does not leak memory when stopping a timer', () => {
+        iterate(() => {
+            const label = timers.start();
+            const actual = timers.stop(label);
+        })
+    }).timeout(10000)
   })
 
   describe('slack', () => {

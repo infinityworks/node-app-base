@@ -42,7 +42,7 @@ module.exports = () => {
 
         const time = process.hrtime(startHrTimes[label])
         const elapsed = (time[0] * 1e9 + time[1]) / 1000000 // add tuple seconds component to nanosecond component and divide by a million to get nano to milli
-        startHrTimes[label] = process.hrtime() // Reset the timer
+        delete startHrTimes[label] // We're done with this timer, so delete it so as to not leak any memory
 
         // TODO -- Right now node-app-base doesn't support floating point values for metrics so we must convert them to integers.
         // We should fix that though.
