@@ -13,6 +13,7 @@
     "prom-client": "^7.1.0"
   },
   "devDependencies": {
+    "leakage": "^0.3.0",
     "mocha": "^3.1.2"
   }
 }
