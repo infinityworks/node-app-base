@@ -27,7 +27,7 @@ module.exports = (appName, config) => {
     }
 
     if (emoji) {
-      slackConfig.emoji = emoji
+      slackConfig.icon_emoji = emoji
     }
 
     const slack = new Slack(url)
