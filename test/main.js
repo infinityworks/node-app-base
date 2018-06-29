@@ -23,6 +23,13 @@ describe('node-base-app', () => {
   })
 
   describe('metrics', () => {
+    context('when metrics is turned off', () => {
+      it('sets the metrics to null', () => {
+        base = Base('test2', false);
+        assert.equal(base.metrics, null)
+      })
+    });
+
     it('presents a metrics interface', () => {
       assert.ok(metrics)
     })

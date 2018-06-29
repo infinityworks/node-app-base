@@ -9,17 +9,17 @@ const HealthCheck = require('./modules/healthCheck')
 
 const instances = {}
 
-module.exports = (appName) => {
+module.exports = (appName, includeMetrics = true) => {
   appName = getSafeAppName(appName)
 
   if (!instances[appName]) {
-    instances[appName] = getInstance(appName)
+    instances[appName] = getInstance(appName, includeMetrics)
   }
   return instances[appName]
 }
 
-function getInstance(appName) {
-  const metrics = Metrics(appName)
+function getInstance(appName, includeMetrics) {
+  const metrics = includeMetrics ? Metrics(appName) : null
   const logger = Logger(metrics)
   const config = Config()
   const timers = Timers()
