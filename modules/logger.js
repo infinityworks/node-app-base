@@ -32,13 +32,15 @@ module.exports = (metrics) => {
         }
       }
 
-      metrics.counter({
-        name: 'log_line',
-        help: 'Count of application log lines by level',
-        labels: {
-          level: level
-        }
-      })
+      if (metrics) {
+        metrics.counter({
+          name: 'log_line',
+          help: 'Count of application log lines by level',
+          labels: {
+            level: level
+          }
+        })
+      }
 
       logger.log(JSON.stringify(metaFields) + '\n')
     }
