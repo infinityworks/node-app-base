@@ -38,6 +38,6 @@ function getInstance(appName) {
 
 function getSafeAppName(appName) {
   return appName
-    .replace('-','_')
+    .replace(/-/g,'_')
     .replace(/[^a-z0-9_]/gi, '')
 }
