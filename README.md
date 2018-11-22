@@ -133,7 +133,7 @@ This module relies on the following environment variables having been configured
 
 ```
 SLACK_URL: required, the webhook URL for slack
-SLACK_CHANNEL: required: the channel or user at which to send messages
+SLACK_CHANNEL: optional: the channel or user at which to send messages
 SLACK_USERNAME: optional, the username messages appear to have come from. Uses to the base app-name is not defined
 SLACK_EMOJI: optional: the emoji icon for the slack user.
 ```
