@@ -129,25 +129,50 @@ describe('node-base-app', () => {
             expect(wrappers).not.toBeUndefined();
         });
 
-        it('returns the response of the operation', async () => {
-            const ret = await wrappers.logsAndTimer('test', () => 'foo');
+        describe('async', () => {
+            it('returns the response of the operation', async () => {
+                const ret = await wrappers.asyncLogsAndTimer('test', () => 'foo');
 
-            expect(ret).toBe('foo');
+                expect(ret).toBe('foo');
+            });
+
+            it('re-throws the error from the operation', async () => {
+                const err = new Error('Test');
+
+                let actualErr;
+                try {
+                    await wrappers.asyncLogsAndTimer('test', () => {
+                        throw err;
+                    });
+                } catch (thrownErr) {
+                    actualErr = thrownErr;
+                }
+
+                expect(actualErr).toBe(err);
+            });
         });
 
-        it('re-throws the error from the operation', async () => {
-            const err = new Error('Test');
+        describe('sync', () => {
+            it('returns the response of the operation', () => {
+                const ret = wrappers.logsAndTimer('test', () => 'foo');
 
-            let actualErr;
-            try {
-                await wrappers.logsAndTimer('test', () => {
-                    throw err;
-                });
-            } catch (thrownErr) {
-                actualErr = thrownErr;
-            }
+                expect(ret).toBe('foo');
+            });
 
-            expect(actualErr).toBe(err);
+            it('re-throws the error from the operation', () => {
+                const err = new Error('Test');
+
+                let actualErr;
+                try {
+                    wrappers.logsAndTimer('test', () => {
+                        throw err;
+                    });
+                } catch (thrownErr) {
+                    actualErr = thrownErr;
+                }
+
+                expect(actualErr).toBe(err);
+            });
         });
     });
 });
