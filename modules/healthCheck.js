@@ -1,26 +1,22 @@
-'use strict'
-
 const http = require('http');
 
 module.exports = (
     logger,
-    config
+    config,
 ) => {
     function initListener(promiseCallback) {
         const httpPort = config.get('HEALTHCHECK_HTTP_LISTEN_PORT') || 8999;
 
-        if (!promiseCallback) {
-            promiseCallback = () => { return Promise.resolve(true) };
-        }
+        const callback = promiseCallback || (() => Promise.resolve(true));
 
         const server = http.createServer((req, res) => {
-            promiseCallback()
+            callback()
                 .then(() => {
                     res.statusCode = 200;
                     res.setHeader('Content-Type', 'text/plain');
                     res.end('Ok\n');
                 })
-                .catch((e) => {
+                .catch(() => {
                     res.statusCode = 500;
                     res.setHeader('Content-Type', 'text/plain');
                     res.end('Unhealthy\n');
@@ -33,6 +29,6 @@ module.exports = (
     }
 
     return {
-        initListener: initListener
+        initListener,
     };
-}
+};

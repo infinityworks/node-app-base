@@ -1,5 +1,4 @@
-'use strict'
-const base = require('../index')('example')
+const base = require('../index')('example');
 
 base.config.set({
     // Port to listen on
@@ -9,12 +8,13 @@ base.config.set({
     SLACK_ENABLED: { type: 'bool', default: false },
     SLACK_URL: { type: 'string', default: 'insert_slack_webhook_here' },
     SLACK_CHANNEL: { type: 'string', default: '#testchannel' },
-    SLACK_EMOJI: { type: 'string', default: ':cat:' }
-})
+    SLACK_EMOJI: { type: 'string', default: ':cat:' },
+});
 
-const app = require('./app')
-app.start()
+const app = require('./app');
+
+app.start();
 
 setInterval(() => {
-  base.logger.info('heartbeat')
-}, 1032)
+    base.logger.info('heartbeat');
+}, 1032);

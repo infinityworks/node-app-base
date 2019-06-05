@@ -1,10 +1,16 @@
 {
   "name": "node-app-base",
-  "version": "0.4.15",
+  "version": "0.4.17",
   "description": "Basic utilities for running node microservices",
   "main": "index.js",
+  "jest": {
+    "testEnvironment": "node"
+  },
   "scripts": {
-    "test": "mocha"
+    "test": "jest",
+    "lint": "eslint .",
+    "lint-fix": "eslint . --fix",
+    "install-with-docker": "docker run -v $(pwd):/code --rm --workdir=/code node:10.15.3-alpine apk add git && npm install"
   },
   "author": "James Barwell <jb@jamesbarwell.co.uk>",
   "license": "ISC",
@@ -13,7 +19,12 @@
     "prom-client": "^7.1.0"
   },
   "devDependencies": {
-    "leakage": "^0.3.0",
-    "mocha": "^3.1.2"
+    "jest": "^24.8.0",
+    "leakage": "^0.4.0",
+    "eslint": "^5.10.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.2",
+    "eslint-plugin-react": "^7.11.1"
   }
 }

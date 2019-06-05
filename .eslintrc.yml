@@ -1,0 +1,14 @@
+env:
+  node: true
+  jest: true
+extends: 'airbnb'
+parserOptions:
+  ecmaVersion: 2018
+rules:
+  indent:
+    - 2
+    - 4
+  consistent-return:
+    - 0
+  no-unused-expressions:
+    - 0
