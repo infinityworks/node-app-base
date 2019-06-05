@@ -55,10 +55,10 @@ module.exports = (metrics) => {
             const timestamp = getTimestamp();
 
             const metaFields = {
-                ...data,
                 time: timestamp.humanTime,
                 level,
                 event: logKey,
+                ...data,
             };
 
             metrics.counter({
