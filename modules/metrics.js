@@ -66,7 +66,9 @@ module.exports = (appName) => {
         }).listen(9091);
     }
 
-    createHttpServer();
+    if (process.env.NODE_ENV !== 'test') {
+        createHttpServer();
+    }
 
     return {
         counter,
