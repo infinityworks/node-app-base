@@ -9,13 +9,17 @@ module.exports = (appName, config) => {
         return false;
     }
 
-    function postMessage(text, callback) {
+    function postMessage(text, callback, critical) {
         const cb = callback || function noop() {};
 
         const username = config.get('SLACK_USERNAME');
         const url = config.get('SLACK_URL');
-        const channel = config.get('SLACK_CHANNEL');
         const emoji = config.get('SLACK_EMOJI');
+
+        let channel = config.get('SLACK_CHANNEL');
+        if (critical) {
+            channel = config.get('CRITICAL_SLACK_CHANNEL');
+        }
 
         const configErr = noConfigCheck(url);
         if (configErr) {
